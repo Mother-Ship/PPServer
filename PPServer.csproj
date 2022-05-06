@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0-preview-20220401-08" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ppy.osu.Game" Version="2021.1122.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2021.1122.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2021.1122.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2021.1122.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2021.1122.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Test" />
+  </ItemGroup>
+
+</Project>
