@@ -98,8 +98,8 @@ public class CalcService : ICalcService
                 break;
         }
 
-        double CS = workingBeatmap.BeatmapInfo.BaseDifficulty.CircleSize;
-        double HP = workingBeatmap.BeatmapInfo.BaseDifficulty.DrainRate;
+        double CS = workingBeatmap.BeatmapInfo.Difficulty.CircleSize;
+        double HP = workingBeatmap.BeatmapInfo.Difficulty.DrainRate;
 
         if (Mods.Contains("HR"))
         {
