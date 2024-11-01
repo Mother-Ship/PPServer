@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using PPServer.models;
@@ -13,6 +14,8 @@ namespace PPServer.Controllers
     {
         private readonly ILogger<PPCalcController> _logger;
         private readonly CalcService calcService = new CalcService();
+        private static readonly ConcurrentDictionary<string, object> fileLocks = new ConcurrentDictionary<string, object>();
+
 
         public PPCalcController(ILogger<PPCalcController> logger)
         {
@@ -33,15 +36,25 @@ namespace PPServer.Controllers
         public CalcResult CalculateByBeatmapId(CalculateByBidRequest req)
         {
             var save = req.bid + ".osu";
-            if (!System.IO.File.Exists(save) || req.refresh)
-            {
-                var url = "http://osu.ppy.sh/osu/" + req.bid;
+            // 获取或添加锁对象，基于文件名
+            var fileLock = fileLocks.GetOrAdd(save, new object());
 
-                using (var web = new WebClient())
+            lock (fileLock)  // 针对特定文件的锁
+            {
+                // 再次检查文件是否存在，避免重复下载
+                if (!System.IO.File.Exists(save) || req.refresh)
                 {
-                    web.DownloadFile(url, save);
+                    var url = "http://osu.ppy.sh/osu/" + req.bid;
+
+                    using (var web = new WebClient())
+                    {
+                        web.DownloadFile(url, save);
+                    }
                 }
             }
+
+            // 移除已完成下载的文件锁
+            fileLocks.TryRemove(save, out _);
 
             return calcService.calc(req.bid + ".osu", req.userScore);
         }
