@@ -1,7 +1,6 @@
 ﻿using PPServer.models;
 
 namespace PPServer.models.request;
-
 public class CalculateByBidRequest
 {
     public int bid{ get; set; }
